@@ -15,9 +15,9 @@ public class Consumer {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 
 				// Provide the correct details: DBServer/DBName, username, password
-				con = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/paf?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-						"root", "");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/paf", "root", "");
+//						"jdbc:mysql://localhost:3306/paf?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+//						"root", "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -48,10 +48,12 @@ public class Consumer {
 				// execute the statement
 				preparedStmt.execute();
 				con.close();
-				output = "Inserted successfully";
+				String newConsumer = readConsumer(); 
+				 output = "{\"status\":\"success\", \"data\": \"" + newConsumer + "\"}"; 
+
 			} catch (Exception e) {
-				output = "Error while inserting the customer.";
-				System.err.println(e.getMessage());
+				 output = "{\"status\":\"error\", \"data\": \"Error while inserting the item.\"}"; 
+						 System.err.println(e.getMessage()); 
 			}
 			return output;
 		}
